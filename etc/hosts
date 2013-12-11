@@ -4,18 +4,24 @@
 [product]
 id=dji  ip=192.81.132.162   user=root  passwd=Wjhn7ggx@   port=2222
 id=service  ip=173.230.144.204   user=root  passwd=Ser@dji_com4DzR   port=2222
-id=store  ip=192.168.1.75   user=root  passwd=Ser@dji_com4DzR   port=23
+#aws server
+#id=store  ip=192.168.1.75   user=root  passwd=Ser@dji_com4DzR   port=23
+
+#qingyao guanli
 #id=api  ip=192.168.1.75   user=root  passwd=   port=23
 
 [preview]
 id=dji  ip=23.92.26.116   user=root  passwd=Qj3jhfl1!   port=2222
 id=service  ip=173.230.144.204   user=root  passwd=Ser@dji_com4DzR   port=2222
+
+#not exist
 #id=store  ip=183.60.143.43   user=root  passwd=onlyidc!@#   port=22
 #id=api  ip=183.60.143.174   user=root  passwd=onlyidc@#$   port=22
 
 
 [staging]
 id=dji  ip=192.155.84.235   user=root  passwd=Redyredy1314   port=22
+#yichao guanli
 #id=service  ip=173.230.144.204   user=root  passwd=Ser@dji_com4DzR   port=2222
 id=store  ip=183.60.143.43   user=root  passwd=onlyidc!@#   port=22
 id=api  ip=183.60.143.174   user=root  passwd=onlyidc@#$   port=22

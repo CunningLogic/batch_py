@@ -1,13 +1,21 @@
 #each config can contain:
 #id  ip  user  passwd  port  src  dest
 
-[GROUP_1]
-id=first  ip=192.168.1.74   user=root  passwd=goome-tech   port=22
-id=second  ip=192.168.1.75   user=root  passwd=goome-tech   port=23
+[product]
+id=dji  ip=192.81.132.162   user=root  passwd=Wjhn7ggx@   port=2222
+id=service  ip=173.230.144.204   user=root  passwd=Ser@dji_com4DzR   port=2222
+id=store  ip=192.168.1.75   user=root  passwd=Ser@dji_com4DzR   port=23
+#id=api  ip=192.168.1.75   user=root  passwd=   port=23
 
-[GROUP_2]
-id=second  ip=192.168.1.75   user=root  passwd=goome-tech   port=22  dest=/tmp/just_test
+[preview]
+id=dji  ip=23.92.26.116   user=root  passwd=Qj3jhfl1!   port=2222
+id=service  ip=173.230.144.204   user=root  passwd=Ser@dji_com4DzR   port=2222
+#id=store  ip=183.60.143.43   user=root  passwd=onlyidc!@#   port=22
+#id=api  ip=183.60.143.174   user=root  passwd=onlyidc@#$   port=22
 
-[GROUP_3]
-id=12  ip=192.168.1.74   user=root  passwd=goome   port=22
-id=14  ip=192.168.1.72   user=root  passwd=goome-tech   port=22  dest=/tmp/just_test
+
+[staging]
+id=dji  ip=192.155.84.235   user=root  passwd=Redyredy1314   port=22
+#id=service  ip=173.230.144.204   user=root  passwd=Ser@dji_com4DzR   port=2222
+id=store  ip=183.60.143.43   user=root  passwd=onlyidc!@#   port=22
+id=api  ip=183.60.143.174   user=root  passwd=onlyidc@#$   port=22

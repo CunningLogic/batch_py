@@ -68,7 +68,6 @@ def usage(script):
                 [[-c|--cmd] $cmdstr] cmd string\n\
                 [[-g|--group] $group] which group\n\
                 [[-i|--id] $id] which id\n\
-                [[-a|--action] $action] value in ('start', 'stop' , ''restart, 'status', 'deploy')\n\
                 [[-t|--timeout] $timeout] cmd execute timeout, use 120s as default\n\
                 [[-d|--debug]] if open debug flag, false as default\n\
                 [[-m|--man]] show this page\n\
@@ -179,12 +178,12 @@ def main():
                 signal.signal(signal.SIGINT, signal_handler)
                 
                 try:
-                        options,args = getopt.getopt(sys.argv[1:],"h:c:g:i:a:t:dm", ["host=", "config=", "group=", "id=", "action=", "timeout=", "debug", "man"])
+                        options,args = getopt.getopt(sys.argv[1:],"h:c:g:i:t:dm", ["host=", "cmd=", "group=", "id=", "timeout=", "debug", "man"])
                 except getopt.GetoptError:
                         sys.exit()
                 
                 default_hosts_path = bin_path+"/../etc/hosts"
-                (hosts, cmdstr, group, id, action, timeout, debug, man ) = (default_hosts_path, False, False, False, False, 120, False, False)
+                (hosts, cmdstr, group, id, timeout, debug, man ) = (default_hosts_path, False, False, False, 120, False, False)
         
                 
                 for name,value in options:
@@ -196,8 +195,6 @@ def main():
                                 group = value
                         if name in ("-i","--id"):
                                 id = value
-                        if name in ("-a","--action"):
-                                action = value
                         if name in ("-t","--timeout"):
                                 timeout = int(value)
                         if name in ("-d","--debug"):

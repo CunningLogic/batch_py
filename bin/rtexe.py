@@ -180,6 +180,8 @@ def main():
                 try:
                         options,args = getopt.getopt(sys.argv[1:],"h:c:g:i:t:dm", ["host=", "cmd=", "group=", "id=", "timeout=", "debug", "man"])
                 except getopt.GetoptError:
+                        print "parse parameters error!"
+                        common.print_traceback_detail()
                         sys.exit()
                 
                 default_hosts_path = bin_path+"/../etc/hosts"

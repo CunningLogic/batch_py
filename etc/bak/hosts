@@ -1,0 +1,13 @@
+#each config can contain:
+#id  ip  user  passwd  port  src  dest
+
+[GROUP_1]
+id=first  ip=192.168.136.130   user=root  passwd=albert   port=22
+id=second  ip=192.168.136.130   user=root  passwd=test   port=22
+
+[GROUP_2]
+id=second  ip=192.168.136.130   user=root  passwd=albert   port=22  dest=/tmp/just_test
+
+[GROUP_3]
+id=12  ip=192.168.136.130   user=root  passwd=test   port=22
+id=14  ip=192.168.136.130   user=root  passwd=albert   port=22  dest=/tmp/just_test

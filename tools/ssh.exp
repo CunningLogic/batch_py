@@ -1,0 +1,196 @@
+#!/usr/bin/expect  -- 
+####################################
+# 2013-09-29 by albert
+####################################
+#
+# exit code:
+#
+# 0,ok
+# 1,help
+# 2,error
+# 3,password error
+# 
+
+if { [llength $argv] != 5 } {
+	puts "### USAGE:  $argv0 ip user passwd port commands"
+	puts ""
+	exit 1
+}
+
+match_max 600000
+
+#300s timeout, for except global
+set timeout 300
+
+set ip [lindex $argv 0]
+set user [lindex $argv 1]
+set passwd [lindex $argv 2]
+set port [lindex $argv 3]
+set commands [lindex $argv 4]
+set yesnoflag 0
+
+
+for {} {1} {} {
+# for is only used to retry when "Interrupted system call" occured
+
+#spawn ssh  -l$user -p$port $ip
+spawn ssh -t  -o ServerAliveInterval=120 -l$user -p$port $ip
+
+expect 	{
+
+	"#" {
+		send "\r" 
+		break;
+	}
+	
+	"assword:" {
+		send "$passwd\r"
+		break;
+	}
+
+	"yes/no)?" {
+		set yesnoflag 1
+		send "yes\r"
+		break;
+	}
+
+	"FATAL" {
+		puts "\nCONNECTERROR: $ip occur FATAL ERROR!!!"
+		exit 2
+	}
+
+	timeout {
+		puts "\nCONNECTERROR: $ip logon TIMEOUT!!!"
+		exit 2
+	}
+
+	"No route to host" {
+		puts "\nCONNECTERROR: $ip No route to host!!!"
+		exit 2
+	}
+
+	"Connection Refused" {
+		puts "\nCONNECTERROR: $ip Connection Refused!!!"
+		exit 2
+	}
+
+	"Connection refused" {
+		puts "\nCONNECTERROR: $ip Connection Refused!!!"
+		exit 2
+	}
+
+	"Host key verification failed" {
+		puts "\nCONNECTERROR: $ip Host key verification failed!!!"
+		exit 2
+	}
+
+	"Illegal host key" {
+		puts "\nCONNECTERROR: $ip Illegal host key!!!"
+		exit 2
+	}
+		
+	"Connection Timed Out" {
+		puts "\nCONNECTERROR: $ip logon TIMEOUT!!!"
+		exit 2
+	}
+
+	"Interrupted system call" {
+		puts "\n$ip Interrupted system call!!!"
+	}
+
+	"Disconnected; connection lost" {
+		puts "\n$ip connection lost!!!"
+		exit 2
+	}
+
+	"Authentication failed" {
+		puts "\n$ip Authentication failed!!!"
+		exit 2
+	}
+
+	"Destination Unreachable" {
+		puts "\n$ip Destination Unreachable!!!"
+		exit 2
+	}
+  }
+}
+
+if { $yesnoflag == 1 } {
+	expect {
+		"assword:" {
+			send "$passwd\r"
+		}
+
+		"yes/no)?" {
+			set yesnoflag 2
+			send "yes\r"
+		}
+	}
+}
+
+if { $yesnoflag == 2 } {
+	expect {
+		"assword:" {
+			send "$passwd\r"
+		}
+	}
+}
+
+
+#expect {
+#	"#" {send "\r"}
+#	">" {send "\r"}
+#	"$" {send "\r"}
+#	"> " {send "\r"}
+#	"$ " {send "\r"}
+#}
+
+expect {
+	"#" {send "$commands \r"}
+	
+	">" {
+		#send "sudo su -\r"
+		send "$commands \r"
+	}
+	
+	"$" {
+		#send "sudo su -\r"
+		send "$commands \r"
+	}
+	
+	"> " {
+		#send "sudo su -\r"
+		send "$commands \r"
+	}
+	
+	"$ " {
+		#send "sudo su -\r"
+		send "$commands \r"
+	}
+	
+	"assword:" {
+		send "$passwd\r"
+		puts "\nPASSWORDERROR: $ip PASSWORD ERROR!!!"
+		exit 3
+	}
+}
+
+expect {
+	"#" {send "sleep 1 \r"}
+	">" {send "sleep 1 \r"}
+	"$" {send "sleep 1 \r"}
+	"> " {send "sleep 1 \r"}
+	"$ " {send "sleep 1 \r"}
+}
+
+expect {
+	"#" {send "exit\r"}
+	">" {send "exit\r"}
+	"$" {send "exit\r"}
+	"> " {send "exit\r"}
+	"$ " {send "exit\r"}
+}
+
+expect eof {
+	exit 0;
+}

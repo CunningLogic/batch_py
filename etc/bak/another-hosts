@@ -1,0 +1,13 @@
+#each config can contain:
+#id  ip  user  passwd  port  src  dest
+
+[GROUP_2]
+id=first  ip=192.168.1.74   user=root  passwd=goome-tech   port=22
+id=second  ip=192.168.1.75   user=root  passwd=goome-tech   port=23
+
+[GROUP_113]
+id=second  ip=192.168.1.75   user=root  passwd=goome-tech   port=22  dest=/tmp/just_test
+
+[GP_12]
+id=12  ip=192.168.1.74   user=root  passwd=goome   port=22
+id=14  ip=192.168.1.72   user=root  passwd=goome-tech   port=22  dest=/tmp/just_test

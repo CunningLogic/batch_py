@@ -178,14 +178,14 @@ def main():
                 signal.signal(signal.SIGINT, signal_handler)
                 
                 try:
-                        options,args = getopt.getopt(sys.argv[1:],"h:c:g:i:t:dm", ["host=", "cmd=", "group=", "id=", "timeout=", "debug", "man"])
+                        options,args = getopt.getopt(sys.argv[1:],"h:c:g:i:t:dmy", ["host=", "cmd=", "group=", "id=", "timeout=", "debug", "man","yes"])
                 except getopt.GetoptError:
                         print "parse parameters error!"
                         common.print_traceback_detail()
                         sys.exit()
                 
                 default_hosts_path = bin_path+"/../etc/hosts"
-                (hosts, cmdstr, group, id, timeout, debug, man ) = (default_hosts_path, False, False, False, 120, False, False)
+                (hosts, cmdstr, group, id, timeout, debug, man, yesflag ) = (default_hosts_path, False, False, False, 120, False, False, False)
         
                 
                 for name,value in options:
@@ -203,6 +203,8 @@ def main():
                                 debug = True
                         if name in ("-m","--man"):
                                 man = True
+                        if name in ("-y","--yes"):
+                                yesflag = True
                                 
                 if man == True:
                         usage(sys.argv[0])
@@ -213,11 +215,12 @@ def main():
                         exit()
         
                 if group == False and id ==False:
-                        ot.warn("not assign group or id, this tool will affect all host!")
-                        answer = raw_input("Are you sure?[yes|no]:")
-                        answer = str.lower(answer)
-                        if answer not in ("yes", "y"):
-                                exit()
+                        if not yesflag:
+                                ot.warn("not assign group or id, this tool will affect all host!")
+                                answer = raw_input("Are you sure?[yes|no]:")
+                                answer = str.lower(answer)
+                                if answer not in ("yes", "y"):
+                                        exit()
         
                 cfghelper.parse_host(hosts)
                 hosts = cfghelper.get_hosts(group,id)

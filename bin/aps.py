@@ -166,7 +166,7 @@ def deploy(login_info, src, dest, direction="push", pattern="", timeout=120, deb
                 if retcode == 0:
                         ot.info("deploy src:%s to dest:%s success!\n"  % (src, dest))
                         if show == True:
-                                print "\n".join(stdo)
+                                print "\n".join(handle_stdo_list(stdo))
                 else:
                         ot.info("deploy src:%s to dest:%s failure!\n"  % (src, dest))
                         if show == True:
@@ -187,7 +187,7 @@ def do_action(login_info, cmdstr="", pattern="", timeout=120, debug=False, raw=T
                 stdo = res["stdo"]
                 stde = res["stde"]
                 if retcode == 0:
-                        print "\n".join(stdo)
+                        print "\n".join(handle_stdo_list(stdo))
                                 
                 else:
                         for so in stdo:

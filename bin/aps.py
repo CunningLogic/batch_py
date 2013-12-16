@@ -9,7 +9,6 @@ bin_path = get_realpath()
 sys.path.append(bin_path + "/../lib/")
 
 from base import common
-from base import log
 from base import mydate
 from base import output as ot
 
@@ -172,6 +171,8 @@ def main():
         """
         try:
                 import signal
+        	import getopt
+        	import re
                 signal.signal(signal.SIGINT, signal_handler)
                 try:
                         options,args = getopt.getopt(sys.argv[1:],"h:c:g:i:t:dmy", ["host=", "config=", "group=", "id=", "timeout=", "debug", "man", "yes"])
@@ -194,8 +195,6 @@ def main():
                                 group = value
                         if name in ("-i","--id"):
                                 id = value
-                        if name in ("-a","--action"):
-                                action = value
                         if name in ("-t","--timeout"):
                                 timeout = int(value)
                         if name in ("-d","--debug"):
@@ -215,10 +214,6 @@ def main():
                         
                 if not os.path.exists(config):
                         ot.error("config file:%s not exist" % (config))
-                        exit()
-        
-                if action not in ("start", "stop", "status", "restart", "deploy", "undeploy"):
-                        ot.error("wrong action:%s" % (action))
                         exit()
         
                 if group == False and id ==False:

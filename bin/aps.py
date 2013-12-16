@@ -161,6 +161,7 @@ def deploy(login_info, src, dest, direction="push", pattern="", timeout=120, deb
                                         ot.error(so)
                                 for eo in stde:
                                         ot.error(eo)
+                return res
         except Exception,data:
                 common.print_traceback_detail()
 
@@ -182,6 +183,7 @@ def do_action(login_info, cmdstr="", pattern="", timeout=120, debug=False, raw=T
                         for eo in stde:
                                 ot.error(eo)
                 print ""
+                return res
         except Exception,data:
                 common.print_traceback_detail()
         
@@ -344,10 +346,12 @@ def main():
 #                 print "cat %s" % (filename)
 #                 ot.info("vi %s" % (filename))
 #                 ot.info("cat %s" % (filename))
-                print "====== wrong ip config:"
-                print wrong_ip_conf
-                print "====== wrong config line:"
-                print wrong_config_conf
+                if  wrong_ip_conf:
+                        print "====== wrong ip config:"
+                        print wrong_ip_conf
+                if wrong_config_conf:
+                        print "====== wrong config line:"
+                        print wrong_config_conf
         except Exception,data:
                 common.print_traceback_detail()
                 print data

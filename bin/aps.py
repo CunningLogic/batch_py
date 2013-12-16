@@ -11,6 +11,7 @@ sys.path.append(bin_path + "/../lib/")
 from base import common
 from base import mydate
 from base import output as ot
+from base import conf_helper as cfghelper
 
 """
 远程执行脚本，批处理: 

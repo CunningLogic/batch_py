@@ -151,9 +151,16 @@ def deploy(login_info, src, dest, direction="push", pattern="", timeout=120, deb
                 if retcode == 0:
                         ot.info("deploy src:%s to dest:%s success!\n"  % (src, dest))
                         if show == True:
-                                for so in stdo:
-                                        if not re.search(pattern, str.strip(so)):
-                                                print so
+				idx=0
+                        	for so in stdo:
+					#if re.search(cmdstr,str.strip(so)):
+					if so.strip().endswith(cmdstr):
+						#print "find cmdstr here!index=",idx
+						break
+					idx = idx + 1
+				tmp_res = stdo[(idx-1):]
+				for so in tmp_res:
+                                        print so
                 else:
                         ot.info("deploy src:%s to dest:%s failure!\n"  % (src, dest))
                         if show == True:
@@ -174,7 +181,15 @@ def do_action(login_info, cmdstr="", pattern="", timeout=120, debug=False, raw=T
                 stdo = res["stdo"]
                 stde = res["stde"]
                 if retcode == 0:
+			idx=0
                         for so in stdo:
+				#if re.search(cmdstr,str.strip(so)):
+				if so.strip().endswith(cmdstr):
+					#print "find cmdstr here!index=",idx
+					break
+				idx = idx + 1
+			tmp_res = stdo[(idx-1):]
+			for so in tmp_res:
                                 if not re.search(pattern, str.strip(so)):
                                         print so
                 else:

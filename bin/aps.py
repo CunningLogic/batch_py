@@ -83,7 +83,22 @@ def get_pattern(*args):
         for arg in args:
                 filters.append(arg)
         pattern = "|".join(filters)
-        return pattern 
+        return pattern
+
+def handle_stdo_list(stdo):
+        idx=0
+        result = []
+        for so in stdo:
+                #if re.search(cmdstr,str.strip(so)):
+                if so.strip().endswith(cmdstr):
+                        #print "find cmdstr here!index=",idx
+                        break
+                idx = idx + 1
+        tmp_res = stdo[(idx-1):]
+        for so in tmp_res:
+                if not re.search(pattern, str.strip(so)):
+                        result.append(so)
+        return result
         
 def execute(sshbin, login_info, cmdstr="", pattern="", timeout=120, debug=False, raw=True):
         """
@@ -151,16 +166,7 @@ def deploy(login_info, src, dest, direction="push", pattern="", timeout=120, deb
                 if retcode == 0:
                         ot.info("deploy src:%s to dest:%s success!\n"  % (src, dest))
                         if show == True:
-				idx=0
-                        	for so in stdo:
-					#if re.search(cmdstr,str.strip(so)):
-					if so.strip().endswith(cmdstr):
-						#print "find cmdstr here!index=",idx
-						break
-					idx = idx + 1
-				tmp_res = stdo[(idx-1):]
-				for so in tmp_res:
-                                        print so
+                                print "\n".join(stdo)
                 else:
                         ot.info("deploy src:%s to dest:%s failure!\n"  % (src, dest))
                         if show == True:
@@ -181,17 +187,8 @@ def do_action(login_info, cmdstr="", pattern="", timeout=120, debug=False, raw=T
                 stdo = res["stdo"]
                 stde = res["stde"]
                 if retcode == 0:
-			idx=0
-                        for so in stdo:
-				#if re.search(cmdstr,str.strip(so)):
-				if so.strip().endswith(cmdstr):
-					#print "find cmdstr here!index=",idx
-					break
-				idx = idx + 1
-			tmp_res = stdo[(idx-1):]
-			for so in tmp_res:
-                                if not re.search(pattern, str.strip(so)):
-                                        print so
+                        print "\n".join(stdo)
+                                
                 else:
                         for so in stdo:
                                 ot.error(so)

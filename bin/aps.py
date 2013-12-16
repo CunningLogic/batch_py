@@ -49,7 +49,7 @@ def usage(script):
                 192.168.1.74   root  passwdxxxx  22\n \
         " % config
 
-def dolog(logstr, logdir=bin_path+"/../var/log", file_prefix="deploy"):
+def dolog(logstr, logdir=bin_path+"/tmp/remote_exe/", file_prefix="deploy"):
         try:
                 nowdate = mydate.get_nowdate()
                 nowdtstr = mydate.get_nowtime()
@@ -85,7 +85,7 @@ def get_pattern(*args):
         pattern = "|".join(filters)
         return pattern
 
-def handle_stdo_list(stdo):
+def handle_stdo_list(stdo, cmdstr, pattern):
         idx=0
         result = []
         for so in stdo:
@@ -94,7 +94,7 @@ def handle_stdo_list(stdo):
                         #print "find cmdstr here!index=",idx
                         break
                 idx = idx + 1
-        tmp_res = stdo[(idx-1):]
+        tmp_res = stdo[(idx):]
         for so in tmp_res:
                 if not re.search(pattern, str.strip(so)):
                         result.append(so)
@@ -163,12 +163,15 @@ def deploy(login_info, src, dest, direction="push", pattern="", timeout=120, deb
                 last_stdo = res["last_stdo"]
                 stdo = res["stdo"]
                 stde = res["stde"]
+		ip = login_info["ip"]
+		print "[deploy] "
+		print "[result] "
                 if retcode == 0:
-                        ot.info("deploy src:%s to dest:%s success!\n"  % (src, dest))
+			print "FROM src:<%s> TO <%s@%s>,SUCCESS!" % (src, ip, dest)
                         if show == True:
-                                print "\n".join(handle_stdo_list(stdo))
+                                print "\n".join(handle_stdo_list(stdo,"", pattern))
                 else:
-                        ot.info("deploy src:%s to dest:%s failure!\n"  % (src, dest))
+			print "FROM src:<%s> TO <%s@%s>,FAILURE!" % (src, ip, dest)
                         if show == True:
                                 for so in stdo:
                                         ot.error(so)
@@ -187,7 +190,9 @@ def do_action(login_info, cmdstr="", pattern="", timeout=120, debug=False, raw=T
                 stdo = res["stdo"]
                 stde = res["stde"]
                 if retcode == 0:
-                        print "\n".join(handle_stdo_list(stdo))
+			print "[execute] ",cmdstr
+			print "[result] "
+                        print "\n".join(handle_stdo_list(stdo, cmdstr, pattern))
                                 
                 else:
                         for so in stdo:

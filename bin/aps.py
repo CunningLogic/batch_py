@@ -311,38 +311,43 @@ def main():
     
                                         print "\n"
                 
-                now = mydate.get_datetime_str()
-                filename = "remote_exe_" + now
-                fd = open(filename, "w")
-                for ip_port in cmd_result:
-                        data = cmd_result[ip_port]
-                        fd.write("--------- %s ---------- "  % (ip_port) + "\n")
-                        for element in data:
-                                cmdstr = element["cmd"]
-                                result = element["result"]
-                                errors =  element["error"]
-                                retcode = element["retcode"]
-                                if result:
-                                        fd.write("[ std out ] " + "\n")
-                                        fd.write("command : " + cmdstr +  "\n")
-                                        for line in result:
-                                                fd.write(line.strip() + "\n")
-                                        fd.write("\n")
-                                if errors:
-                                        fd.write("[ std error ] " + "\n")
-                                        fd.write("command : " + cmdstr +  "\n")
-                                        for line in errors:
-                                                fd.write(line.strip() + "\n")
-                        fd.write("\n\n")
-                fd.close()
+                #print aps execute logs
+#                 now = mydate.get_datetime_str()
+#                 filename = "remote_exe_" + now
+#                 fd = open(filename, "w")
+#                 for ip_port in cmd_result:
+#                         data = cmd_result[ip_port]
+#                         fd.write("--------- %s ---------- "  % (ip_port) + "\n")
+#                         for element in data:
+#                                 cmdstr = element["cmd"]
+#                                 result = element["result"]
+#                                 errors =  element["error"]
+#                                 retcode = element["retcode"]
+#                                 if result:
+#                                         fd.write("[ std out ] " + "\n")
+#                                         fd.write("command : " + cmdstr +  "\n")
+#                                         for line in result:
+#                                                 fd.write(line.strip() + "\n")
+#                                         fd.write("\n")
+#                                 if errors:
+#                                         fd.write("[ std error ] " + "\n")
+#                                         fd.write("command : " + cmdstr +  "\n")
+#                                         for line in errors:
+#                                                 fd.write(line.strip() + "\n")
+#                         fd.write("\n\n")
+#                 fd.close()
                 
-                print "all command result save in %s" % (filename)
-                print "maybe you want to do as follow:"
+#                 print "all command result save in %s" % (filename)
+#                 print "maybe you want to do as follow:"
                 
-        #         print "vi %s" % (filename)
-        #         print "cat %s" % (filename)
-                ot.info("vi %s" % (filename))
-                ot.info("cat %s" % (filename))
+#                 print "vi %s" % (filename)
+#                 print "cat %s" % (filename)
+#                 ot.info("vi %s" % (filename))
+#                 ot.info("cat %s" % (filename))
+                print "====== wrong ip config:"
+                print wrong_ip_conf
+                print "====== wrong config line:"
+                print wrong_config_conf
         except Exception,data:
                 common.print_traceback_detail()
                 print data

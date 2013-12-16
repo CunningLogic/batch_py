@@ -49,7 +49,7 @@ def usage(script):
                 192.168.1.74   root  passwdxxxx  22\n \
         " % config
 
-def dolog(logstr, logdir=bin_path+"/tmp/remote_exe/", file_prefix="deploy"):
+def dolog(logstr, logdir="/tmp/remote_exe/", file_prefix="deploy"):
         try:
                 nowdate = mydate.get_nowdate()
                 nowdtstr = mydate.get_nowtime()

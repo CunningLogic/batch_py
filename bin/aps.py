@@ -12,6 +12,11 @@ from base import common
 from base import mydate
 from base import output as ot
 from base import conf_helper as cfghelper
+from base import cmd
+
+import re
+import signal
+import getopt
 
 """
 远程执行脚本，批处理: 
@@ -43,6 +48,20 @@ def usage(script):
         note:  when not set defalut flag, each line of iplist  must contain 4 fields, that (ip user password port)\n \
                 192.168.1.74   root  passwdxxxx  22\n \
         " % config
+
+def dolog(logstr, logdir=bin_path+"/../var/log", file_prefix="deploy"):
+        try:
+                nowdate = mydate.get_nowdate()
+                nowdtstr = mydate.get_nowtime()
+                logp = "%s/%s_%s.txt" % (logdir,file_prefix,nowdate)
+                if file_prefix == "" :
+                        logp = "%s/%s.txt" % (logdir,nowdate)
+                logstr = "[%s]:\n%s\n\n" % (nowdtstr,logstr)
+                fh = open(logp, "a+")
+                fh.write(logstr)
+                fh.close()
+        except Exception,data:
+                common.print_traceback_detail()
         
 def get_pattern(*args):
         filters = [
@@ -173,7 +192,6 @@ def main():
         try:
                 import signal
         	import getopt
-        	import re
                 signal.signal(signal.SIGINT, signal_handler)
                 try:
                         options,args = getopt.getopt(sys.argv[1:],"h:c:g:i:t:dmy", ["host=", "config=", "group=", "id=", "timeout=", "debug", "man", "yes"])
@@ -246,9 +264,9 @@ def main():
                 cmd_result = dict()
                          
                 for srv_host in hosts:
-
-                                
                         infostr = "".join(["="] * 30)
+			ip = srv_host["ip"]
+			port = srv_host["port"]
                         setting = { "padding": infostr, "ip": ip, "port": port }
                         ot.info("%(padding)s %(ip)s PORT:%(port)s %(padding)s"  % setting)
                                                         
@@ -263,16 +281,14 @@ def main():
                                         continue
                                 
                                 type_flag = config_arg[0]
-                                
                                 if type_flag not in ("file", "cmd") or len(config_arg) < 1 :
                                         wrong_config_conf.append(config_line)
                                         continue
 
-                                pattern = get_pattern("%s$" % (cmdstr))
                                 #如果是命令
                                 if type_flag == "cmd" and len(config_arg) > 1:
                                         cmdstr = config_arg[1]
-                                        
+                                	pattern = get_pattern("%s$" % (cmdstr))
                                         do_action(srv_host, cmdstr=cmdstr, pattern=pattern, timeout=timeout, debug=debug, raw=True)
                                 #如果是文件传输
                                 if type_flag == "file":
@@ -290,6 +306,7 @@ def main():
                                         if direction not in ("push", "pull"):
                                                 wrong_config_conf.append(config_line)
                                                 continue
+                                	pattern = get_pattern("")
                                         deploy(srv_host, src_file, dest_dir, direction=direction, pattern=pattern, timeout=timeout, debug=debug, raw=True, show=False)
     
                                         print "\n"

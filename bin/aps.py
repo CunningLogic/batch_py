@@ -8,8 +8,6 @@ def get_realpath():
 bin_path = get_realpath()
 sys.path.append(bin_path + "/../lib/")
 
-
-from base import curl
 from base import common
 from base import log
 from base import mydate

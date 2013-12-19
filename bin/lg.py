@@ -109,10 +109,6 @@ def main():
         
                 cfghelper.parse_host(hosts)
                 hosts = cfghelper.get_hosts("","")
-
-                if len(hosts) > 1:
-                        print "match more than one host!"
-                        exit()
                         
                 for srv_host in hosts:
                         ip = srv_host.get("ip", "")

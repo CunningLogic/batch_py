@@ -80,32 +80,21 @@ def login(login_info, pattern="", timeout=120, debug=False, raw=True):
 def main():
         try:
                 signal.signal(signal.SIGINT, signal_handler)
-                
-                try:
-                        options,args = getopt.getopt(sys.argv[1:],"h:m", ["host=","man"])
-                except getopt.GetoptError:
-                        print "parse parameters error!"
-                        common.print_traceback_detail()
-                        sys.exit()
+
+		if len(sys.argv) < 2:
+			usage(sys.argv[0])
+			exit()                
+                arg1 = sys.argv[1]
+
+		if arg1 == "-h" or arg1 == "--help":
+			usage(sys.argv[0])
+			exit()
+
                 
                 default_hosts_path = bin_path+"/../etc/hosts"
                 (hosts,man ) = (default_hosts_path, False)
         
                 
-                for name,value in options:
-                        if name in ("-h","--hosts"):
-                                hosts = value
-                        if name in ("-m","--man"):
-                                man = True
-                                
-                if man == True:
-                        usage(sys.argv[0])
-                        exit()
-                        
-                if not os.path.exists(hosts):
-                        ot.error("hosts file:%s not exist!" % (hosts))
-                        exit()
-
         
                 cfghelper.parse_host(hosts)
                 hosts = cfghelper.get_hosts("","")

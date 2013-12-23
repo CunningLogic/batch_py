@@ -3,7 +3,11 @@
 
 [product]
 #id=dji  ip=192.81.132.162   user=root  passwd=Wjhn7ggx@   port=2222
+<<<<<<< HEAD
 id=dji  ip=192.81.132.162   user=albert  passwd=albert   port=2222
+=======
+id=dji  ip=192.81.132.162   user=albert  passwd=albert  port=2222
+>>>>>>> 56d12cb24b5f9b6f896eebeaf4a52d7d175bbadb
 id=service  ip=173.230.144.204   user=root  passwd=Ser@dji_com4DzR   port=2222
 #aws server
 #id=store  ip=192.168.1.75   user=root  passwd=Ser@dji_com4DzR   port=23

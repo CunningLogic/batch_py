@@ -1,4 +1,9 @@
-#Wed Dec 11 11:07:04 CST 2013
+#Thu Dec 19 13:01:51 CST 2013
 eclipse.preferences.version=1
+encoding//bin/aps.py=utf8
 encoding//bin/deploy.py=utf8
+encoding//bin/goto.py=utf8
+encoding//bin/lg.py=utf8
 encoding//bin/rtexe.py=utf8
+encoding//lib/base/common.py=utf-8
+encoding//lib/base/conf_helper.py=utf-8
